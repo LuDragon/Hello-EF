@@ -14,7 +14,6 @@ namespace DAL
 
         public T Add(T entity)
         {
-
             nContext.Entry<T>(entity).State = System.Data.Entity.EntityState.Added;
             nContext.SaveChanges();
             return entity;
