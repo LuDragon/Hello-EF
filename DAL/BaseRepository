@@ -31,7 +31,7 @@ namespace DAL
             return nContext.SaveChanges() > 0;
         }
         /// <summary>
-        ///  更新指定字段
+        ///  更新指定字段  
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="whereLambda"></param>
