@@ -2,7 +2,6 @@ using AR.IDAL;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-
 namespace DAL
 {
     /// <summary>
