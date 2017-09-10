@@ -1,0 +1,24 @@
+using IDAL;
+using EntityFramework.Extensions;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Model;
+
+namespace AR.DAL.User
+{
+
+    public class UsersRepository: BaseRepository<Users>, IUsersRepository
+    {
+        /// <summary>
+        /// 条件更新
+        /// </summary>
+        /// <param name="whereLambda"></param>
+        /// <param name="setLambda"></param>
+        /// <returns></returns>
+        public bool UpdateWhere(Expression<Func<Users, bool>> whereLambda, Expression<Func<Users, Users>> setLambda)
+        {
+            return nContext.Users.Where(whereLambda).Update(setLambda) > 0;
+        }
+    }
+}
