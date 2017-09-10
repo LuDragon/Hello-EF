@@ -1,0 +1,9 @@
+namespace IDAL
+{
+    /// <summary>
+    /// 用户接口
+    /// </summary>
+    public interface IUsersRepository : IBaseRepository<Model.Users>
+    {
+    }
+}
