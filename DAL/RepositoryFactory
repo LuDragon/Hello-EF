@@ -1,0 +1,19 @@
+
+using IDAL;
+using Model;
+
+namespace DAL
+{
+    /// <summary>
+    /// 简单工厂
+    /// </summary>
+    public static class RepositoryFactory
+    {
+      
+        /// <summary>
+        /// 用户仓储
+        /// </summary>
+        public static IDAL.IUsersRepository UsersRepository { get { return new User.UsersRepository(); } }      
+
+    }
+}
