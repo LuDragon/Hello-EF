@@ -1,0 +1,106 @@
+using DAL;
+using IBLL.User;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Model;
+
+namespace BLL
+{
+    /// <summary>
+    /// 用户服务类
+    /// </summary>
+    public class UsersService : BaseService<Users>, IUsersService
+    {
+        public UsersService() : base(RepositoryFactory.UsersRepository) { }
+
+        DAL.User.UsersRepository dal = new DAL.User.UsersRepository();
+
+        public bool Exist(string phone) { return CurrentRepository.Exist(u => u.Phone == phone); }
+
+        public Users Find(int ID) { return CurrentRepository.Find(u => u.ID == ID); }
+
+        public Users Find(string phone) { return CurrentRepository.Find(u => u.Phone == phone); }
+
+        public IQueryable<Users> FindPageList(int pageIndex, int pageSize, out int totalRecord, Expression<Func<Users, bool>> whereLamdba, int order)
+        {
+            bool _isAsc = true;
+            string _orderName = string.Empty;
+            switch (order)
+            {
+                case 0:
+                    _isAsc = true;
+                    _orderName = "ID";
+                    break;
+                case 1:
+                    _isAsc = true;
+                    _orderName = "Num";
+                    break;
+                case 2:
+                    _isAsc = true;
+                    _orderName = "Level";
+                    break;
+                case 3:
+                    _isAsc = false;
+                    _orderName = "Num";
+                    break;
+                case 4:
+                    _isAsc = false;
+                    _orderName = "Level";
+                    break;
+                default:
+                    _isAsc = false;
+                    _orderName = "ID";
+                    break;
+            }
+            return CurrentRepository.FindPageList(pageIndex, pageSize, out totalRecord, whereLamdba, _orderName, _isAsc);
+        }
+
+        public Users Login(string phone, string pwd) { return CurrentRepository.Find(u => u.Phone == phone && u.Pwd == pwd); }
+
+        /// <summary>
+        /// 设置/修改支付密码
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool SetUpdPayPwd(Users user)
+        {
+            //user.PayPwd = Utils.MD5(user.PayPwd);
+            Expression<Func<Users, bool>> where = u => u.ID == user.ID;
+            Expression<Func<Users, Users>> set = u => new Users { PayPwd = user.PayPwd };
+            return dal.UpdateWhere(where, set);
+        }
+
+        /// <summary>
+        /// 使用支付密码
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool UsePayPwd(Users user)
+        {
+            return CurrentRepository.Exist(u => u.ID == user.ID && u.PayPwd == user.PayPwd);
+        }
+     
+        /// <summary>
+        /// 会员激活
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public bool Activate(int userID)
+        {
+            Expression<Func<Users, bool>> where = u => u.ID == userID;
+            Expression<Func<Users, Users>> set = u => new Users { Level = 1 };
+            return dal.UpdateWhere(where,set);
+        }
+
+        /// <summary>
+        /// 修改登录密码
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdPwd(string phone,string pwd) {
+            Expression<Func<Users, bool>> where = u => u.Phone == phone;
+            Expression<Func<Users, Users>> set = u => new Users { Pwd=pwd };
+            return dal.UpdateWhere(where,set);
+        }
+    }
+}
