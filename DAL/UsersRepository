@@ -11,7 +11,7 @@ namespace AR.DAL.User
     public class UsersRepository: BaseRepository<Users>, IUsersRepository
     {
         /// <summary>
-        /// 条件更新
+        /// 条件更新 EF扩展
         /// </summary>
         /// <param name="whereLambda"></param>
         /// <param name="setLambda"></param>
