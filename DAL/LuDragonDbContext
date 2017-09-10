@@ -1,0 +1,20 @@
+using System.Data.Entity;
+
+namespace DAL
+{
+    /// <summary>
+    /// 数据上下文
+    /// </summary>
+    public class LuDragonDbContext : DbContext
+    {
+        
+        public DbSet<Model.User.Users> Users { get; set; }
+
+        public LuDragonDbContext()
+             //: base("LuDragon") //默认.\sqlexpress实例
+             : base("name=DBString") //配置文件中的数据库连接字符串
+        {
+            Database.CreateIfNotExists();
+        }
+    }
+}
