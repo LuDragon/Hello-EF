@@ -1,0 +1,22 @@
+using System.Runtime.Remoting.Messaging;
+
+namespace DAL
+{
+    public class ContextFactory
+    {
+        /// <summary>
+        /// 获取当前数据上下文
+        /// </summary>
+        /// <returns></returns>
+        public static LuDragonDbContext GetCurrentContext()
+        {
+            LuDragonDbContext _nContext = CallContext.GetData("LuDragonContext") as LuDragonDbContext;
+            if (_nContext == null)
+            {
+                _nContext = new LuDragonDbContext();
+                CallContext.SetData("LuDragonContext", _nContext);
+            }
+            return _nContext;
+        }
+    }
+}
